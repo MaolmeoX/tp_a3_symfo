@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Reservation
 {
+    public function __construct()
+    {
+        $this->houses = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -48,6 +54,16 @@ class Reservation
      * @ORM\Column(name="price", type="integer")
      */
     private $price;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\House", mappedBy="reversations")
+     */
+    private $houses;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="reservations")
+     */
+    private $customer;
 
 
     /**

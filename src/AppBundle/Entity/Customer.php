@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Customer
 {
+
+    /**
+     * Customer constructor.
+     */
+    public function __construct()
+    {
+        $this->houses = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -56,6 +67,15 @@ class Customer
      */
     private $enabled;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\House", mappedBy="customer")
+     */
+    private $houses;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Reservation", mappedBy="customer")
+     */
+    private $reservations;
 
     /**
      * Get id
@@ -186,5 +206,38 @@ class Customer
     {
         return $this->enabled;
     }
-}
 
+    /**
+     * Add house
+     *
+     * @param \AppBundle\Entity\House $house
+     *
+     * @return Customer
+     */
+    public function addHouse(\AppBundle\Entity\House $house)
+    {
+        $this->houses[] = $house;
+
+        return $this;
+    }
+
+    /**
+     * Remove house
+     *
+     * @param \AppBundle\Entity\House $house
+     */
+    public function removeHouse(\AppBundle\Entity\House $house)
+    {
+        $this->houses->removeElement($house);
+    }
+
+    /**
+     * Get houses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getHouses()
+    {
+        return $this->houses;
+    }
+}

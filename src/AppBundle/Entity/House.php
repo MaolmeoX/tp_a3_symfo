@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,6 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class House
 {
+    /**
+     * House constructor.
+     */
+    public function __construct()
+    {
+        $this->reversations = new ArrayCollection();
+    }
+
     /**
      * @var int
      *
@@ -48,6 +57,17 @@ class House
      * @ORM\Column(name="features", type="integer")
      */
     private $features;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Customer", inversedBy="houses")
+     */
+    private $customer;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Reservation", inversedBy="houses")
+     * @ORM\JoinTable(name="houses_reservations")
+     */
+    private $reversations;
 
 
     /**
@@ -155,5 +175,22 @@ class House
     {
         return $this->features;
     }
-}
 
+    /**
+     * @return mixed
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param mixed $customer
+     * @return House
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+        return $this;
+    }
+}
