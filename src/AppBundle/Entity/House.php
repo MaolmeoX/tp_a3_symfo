@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Enum\Feature;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -53,8 +54,6 @@ class House
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="features", type="integer")
      */
     private $features;
 
